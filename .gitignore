@@ -1,0 +1,65 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+
+# Testing and linting
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Credentials and secrets
+credentials.json
+application_default_credentials.json
+*service-account*.json
+*service_account*.json
+gha-creds-*.json
+secrets/
+*.pem
+*.key
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+*.tfplan
+crash.log
+crash.*.log
+
+# dbt
+target/
+dbt_packages/
+profiles.yml
+
+# Airflow
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+
+# Runtime logs and generated data
+logs/
+*.log
+data/generated/
+data/output/
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
