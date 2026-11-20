@@ -45,3 +45,36 @@ resources are not provisioned by the initial configuration.
 The initial deployment region is us-central1, selected
 to support regional compatibility and cost-conscious
 development.
+
+
+## Cloud Storage Infrastructure
+
+Three regional Cloud Storage buckets are provisioned
+using Terraform.
+
+| Bucket layer | Purpose | Lifecycle |
+|---|---|---|
+| Raw | Original source data | 30 days |
+| Staging | Intermediate processing files | 7 days |
+| Temp | Temporary Dataflow files | 3 days |
+
+All buckets use:
+
+- Regional STANDARD storage in us-central1.
+- Uniform bucket-level access.
+- Enforced public access prevention.
+- Disabled object versioning.
+- Disabled force destroy.
+- Standardized resource labels.
+
+The Raw bucket uses a seven-day soft delete policy
+to protect source data against accidental deletion.
+
+Soft delete is disabled for reproducible staging
+and temporary data to minimize storage costs.
+
+The bucket names and URIs are exposed through
+Terraform outputs.
+
+Infrastructure deployment and basic data access
+are validated using Terraform and Google Cloud CLI.

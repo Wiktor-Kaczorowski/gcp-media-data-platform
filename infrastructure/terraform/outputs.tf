@@ -26,3 +26,22 @@ output "required_services" {
     service.service
   ])
 }
+
+
+output "storage_bucket_names" {
+  description = "Cloud Storage bucket names by data layer."
+
+  value = {
+    for layer, bucket in google_storage_bucket.media :
+    layer => bucket.name
+  }
+}
+
+output "storage_bucket_uris" {
+  description = "Cloud Storage URIs by data layer."
+
+  value = {
+    for layer, bucket in google_storage_bucket.media :
+    layer => bucket.url
+  }
+}
