@@ -45,3 +45,22 @@ output "storage_bucket_uris" {
     layer => bucket.url
   }
 }
+
+
+output "bigquery_dataset_ids" {
+  description = "BigQuery dataset IDs by medallion layer."
+
+  value = {
+    for layer, dataset in google_bigquery_dataset.media :
+    layer => dataset.dataset_id
+  }
+}
+
+output "bigquery_dataset_references" {
+  description = "Fully qualified dataset references."
+
+  value = {
+    for layer, dataset in google_bigquery_dataset.media :
+    layer => "${var.project_id}.${dataset.dataset_id}"
+  }
+}

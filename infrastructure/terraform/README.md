@@ -78,3 +78,42 @@ Terraform outputs.
 
 Infrastructure deployment and basic data access
 are validated using Terraform and Google Cloud CLI.
+
+
+## BigQuery Data Warehouse
+
+The data warehouse follows a Medallion Architecture
+with three dedicated BigQuery datasets.
+
+| Dataset | Purpose | Default table expiration |
+|---|---|---|
+| media_bronze | Raw source data | 30 days |
+| media_silver | Validated and standardized data | 60 days |
+| media_gold | Business-ready analytical models | 90 days |
+
+All datasets are deployed in us-central1.
+
+Infrastructure safeguards include:
+
+- Terraform prevent_destroy.
+- Disabled automatic dataset content deletion.
+- Default table expiration policies.
+- Standardized resource labels.
+- Explicit API dependencies.
+
+Dataset identifiers and fully qualified references
+are exposed through Terraform outputs.
+
+Query cost management includes:
+
+- On-demand query processing.
+- Dry-run validation.
+- Maximum bytes billed limits.
+- Column selection and partition pruning.
+- Small synthetic datasets.
+
+Partitioned tables, clustering and analytical models
+will be implemented in subsequent milestones.
+
+The expiration periods are development-environment
+settings and must be reviewed for production use.
