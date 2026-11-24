@@ -1,0 +1,24 @@
+
+pipeline:
+  name: campaign-publish
+  version: 1
+
+source:
+  type: rest_api
+  endpoint: /campaign-events
+  count: 20
+  seed: 123
+
+target:
+  type: bigquery
+  dataset: media_bronze
+  table: citizen_demo_events
+
+quality:
+  max_invalid_records: 1
+  max_duplicate_records: 1
+
+execution:
+  mode: publish
+  runner: DirectRunner
+  max_workers: 1
