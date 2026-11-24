@@ -1,0 +1,92 @@
+
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+      - "feat/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-quality:
+    name: Python Quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-lock.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-lock.txt
+          python -m pip install --no-deps -e '.[dev]'
+
+      - name: Check dependencies
+        run: python -m pip check
+
+      - name: Run quality checks
+        run: make check
+
+      - name: Validate shell scripts
+        run: |
+          for script in scripts/*.sh; do
+            bash -n "$script"
+          done
+
+      - name: Validate citizen developer configuration
+        run: |
+          python -m media_platform.framework \
+            --config configs/campaign_preview.yaml \
+            --validate-only
+
+          python -m media_platform.framework \
+            --config configs/campaign_publish.yaml \
+            --validate-only
+
+  terraform-quality:
+    name: Terraform Quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    defaults:
+      run:
+        working-directory: infrastructure/terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.17.2"
+          terraform_wrapper: false
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive
+
+      - name: Initialize Terraform
+        run: terraform init -backend=false -input=false -lockfile=readonly
+
+      - name: Validate Terraform
+        run: terraform validate
