@@ -101,3 +101,19 @@ output "pubsub_subscription_ids" {
     dead_letter = google_pubsub_subscription.dead_letter.id
   }
 }
+
+
+output "dataflow_worker_service_account" {
+  description = "Dedicated Dataflow worker service account email."
+  value       = google_service_account.dataflow_worker.email
+}
+
+output "dataflow_network" {
+  description = "Dataflow VPC network name."
+  value       = google_compute_network.dataflow.name
+}
+
+output "dataflow_subnetwork" {
+  description = "Fully qualified Dataflow subnetwork URL."
+  value       = google_compute_subnetwork.dataflow.self_link
+}

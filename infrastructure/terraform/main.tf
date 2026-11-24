@@ -10,6 +10,8 @@ locals {
     "logging.googleapis.com",
     "monitoring.googleapis.com",
     "cloudresourcemanager.googleapis.com",
+    "compute.googleapis.com",
+    "dataflow.googleapis.com",
   ])
 }
 

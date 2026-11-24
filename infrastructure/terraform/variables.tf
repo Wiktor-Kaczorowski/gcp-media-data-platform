@@ -53,3 +53,17 @@ variable "bq_location" {
     error_message = "BigQuery location must match the GCP region."
   }
 }
+
+variable "dataflow_submitter_member" {
+  description = "IAM principal allowed to run jobs as the Dataflow worker."
+  type        = string
+
+  validation {
+    condition = can(regex(
+      "^(user|serviceAccount):[^@]+@[^@]+$",
+      var.dataflow_submitter_member
+    ))
+
+    error_message = "Provide a valid IAM user or service account principal."
+  }
+}
