@@ -18,6 +18,9 @@ dependencies = [
     "google-cloud-storage>=2.18,<4",
     "apache-beam[gcp]==2.72.0",
     "google-cloud-pubsub>=2.25,<3",
+    "PyYAML>=6,<7",
+    "pydantic>=2,<3",
+    "google-cloud-bigquery>=3,<4",
 ]
 
 [project.optional-dependencies]

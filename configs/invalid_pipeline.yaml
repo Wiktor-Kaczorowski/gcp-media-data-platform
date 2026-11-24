@@ -1,0 +1,24 @@
+
+pipeline:
+  name: unsafe-pipeline
+  version: 1
+
+source:
+  type: rest_api
+  endpoint: /campaign-events
+  count: 1000000
+  seed: 42
+
+target:
+  type: bigquery
+  dataset: media_gold
+  table: fact_media_events
+
+quality:
+  max_invalid_records: 10000
+  max_duplicate_records: 10000
+
+execution:
+  mode: publish
+  runner: DataflowRunner
+  max_workers: 50

@@ -1,0 +1,24 @@
+
+pipeline:
+  name: campaign-preview
+  version: 1
+
+source:
+  type: rest_api
+  endpoint: /campaign-events
+  count: 10
+  seed: 42
+
+target:
+  type: bigquery
+  dataset: media_bronze
+  table: citizen_demo_events
+
+quality:
+  max_invalid_records: 1
+  max_duplicate_records: 1
+
+execution:
+  mode: preview
+  runner: DirectRunner
+  max_workers: 1
