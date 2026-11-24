@@ -1,0 +1,32 @@
+
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    id: Build API image
+    args:
+      - build
+      - -t
+      - "${_IMAGE}"
+      - .
+
+  - name: "gcr.io/cloud-builders/docker"
+    id: Smoke test
+    args:
+      - run
+      - --rm
+      - "${_IMAGE}"
+      - python
+      - -c
+      - |
+        from media_platform.api import health
+        from media_platform.events import generate_events
+        assert health()["status"] == "healthy"
+        assert len(generate_events(count=10)) == 12
+        print("Container smoke test: PASS")
+
+images:
+  - "${_IMAGE}"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: "300s"

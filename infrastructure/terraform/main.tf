@@ -12,6 +12,7 @@ locals {
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
     "dataflow.googleapis.com",
+    "cloudbuild.googleapis.com",
   ])
 }
 

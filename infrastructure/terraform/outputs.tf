@@ -117,3 +117,15 @@ output "dataflow_subnetwork" {
   description = "Fully qualified Dataflow subnetwork URL."
   value       = google_compute_subnetwork.dataflow.self_link
 }
+
+
+output "cloud_build_service_account" {
+  description = "Dedicated Cloud Build service account."
+  value       = google_service_account.cloud_build.email
+}
+
+output "artifact_registry_repository" {
+  description = "Docker artifact repository path."
+
+  value = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.images.repository_id}"
+}
