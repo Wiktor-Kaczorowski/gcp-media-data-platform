@@ -64,3 +64,40 @@ output "bigquery_dataset_references" {
     layer => "${var.project_id}.${dataset.dataset_id}"
   }
 }
+
+
+output "pubsub_topic_names" {
+  description = "Pub/Sub topic names."
+
+  value = {
+    events      = google_pubsub_topic.events.name
+    dead_letter = google_pubsub_topic.dead_letter.name
+  }
+}
+
+output "pubsub_topic_ids" {
+  description = "Fully qualified Pub/Sub topic IDs."
+
+  value = {
+    events      = google_pubsub_topic.events.id
+    dead_letter = google_pubsub_topic.dead_letter.id
+  }
+}
+
+output "pubsub_subscription_names" {
+  description = "Pub/Sub subscription names."
+
+  value = {
+    events      = google_pubsub_subscription.events.name
+    dead_letter = google_pubsub_subscription.dead_letter.name
+  }
+}
+
+output "pubsub_subscription_ids" {
+  description = "Fully qualified Pub/Sub subscription IDs."
+
+  value = {
+    events      = google_pubsub_subscription.events.id
+    dead_letter = google_pubsub_subscription.dead_letter.id
+  }
+}

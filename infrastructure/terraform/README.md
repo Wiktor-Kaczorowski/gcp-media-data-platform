@@ -117,3 +117,41 @@ will be implemented in subsequent milestones.
 
 The expiration periods are development-environment
 settings and must be reviewed for production use.
+
+
+## Pub/Sub Messaging Infrastructure
+
+The platform uses Google Cloud Pub/Sub to support
+asynchronous and event-driven data processing.
+
+### Resources
+
+| Resource | Purpose |
+|---|---|
+| Main topic | Synthetic media events |
+| Main subscription | Streaming pipeline consumption |
+| Dead-letter topic | Repeated delivery failures |
+| Dead-letter subscription | Failure investigation |
+
+### Messaging Configuration
+
+- Pull-based subscriptions.
+- 30-second acknowledgement deadline.
+- 24-hour message retention.
+- Acknowledged message retention disabled.
+- Exponential retry backoff between 10 and 60 seconds.
+- Dead-letter forwarding after approximately five attempts.
+- Regional message storage in us-central1.
+- At-least-once delivery semantics.
+
+The Pub/Sub service agent receives resource-level IAM
+permissions required for dead-letter message forwarding.
+
+Application-generated event identifiers will support
+deduplication and idempotent downstream processing.
+
+Basic messaging functionality is validated through
+Google Cloud CLI publish, pull and acknowledgement tests.
+
+End-to-end dead-letter forwarding and streaming processing
+will be validated in subsequent milestones.
